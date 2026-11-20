@@ -1,2 +1,157 @@
-# trimmed-mean
-Go package for calculate a trimmed mean
+# Trimmed Mean
+
+`trimmedmean` is a Go package for calculating symmetric and asymmetric trimmed means for integer and floating-point data.
+
+A trimmed mean is calculated by sorting the observations, removing a proportion of observations from the lower and upper ends, and calculating the arithmetic mean of the remaining observations.
+
+## Status
+
+This package is under development as part of a graduate-level Go programming assignment.
+
+Currently implemented:
+
+- Symmetric trimming
+- Asymmetric trimming
+- Integer slices
+- `float64` slices
+- Input validation for trimming proportions
+- Unit tests
+- Protection against modification of the caller's input slice
+
+Benchmarks, profiling evidence, and comparisons with R will be added as development continues.
+
+## Requirements
+
+- Go 1.27.1 or later
+
+## Installation
+
+From inside a Go module, run:
+
+```bash
+go get github.com/gummybeardream/trimmed-mean
+```
+
+Then import the package:
+
+```go
+import "github.com/gummybeardream/trimmed-mean"
+```
+
+The repository name contains a hyphen, but the Go package name used in code is `trimmedmean`.
+
+## Symmetric trimming
+
+Provide one trimming proportion to remove the same proportion from both ends of the sorted observations.
+
+```go
+package main
+
+import (
+	"fmt"
+	"log"
+
+	trimmedmean "github.com/gummybeardream/trimmed-mean"
+)
+
+func main() {
+	values := []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
+
+	result, err := trimmedmean.Mean(values, 0.10)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fmt.Println(result)
+}
+```
+
+A trimming proportion of `0.10` removes 10% of the observations from each end. For this example, the package removes `1` and `10`, producing a trimmed mean of `5.5`.
+
+## Asymmetric trimming
+
+Provide two proportions to use different trimming amounts for the lower and upper ends:
+
+```go
+result, err := trimmedmean.Mean(values, 0.10, 0.20)
+```
+
+The first proportion is the lower trim, and the second is the upper trim. This example removes 10% from the lower end and 20% from the upper end.
+
+## Trimming rules
+
+The number of observations removed from each end is calculated as:
+
+```text
+number of observations × trimming proportion
+```
+
+When this calculation is not a whole number, the fractional portion is discarded. For example:
+
+```text
+15 observations × 0.10 = 1.5
+```
+
+One observation is removed from each end. This behavior is intended to match the trimming-count rule used by the base R `mean` function.
+
+Valid calls must provide one or two trimming proportions. Each proportion must be at least `0` and less than `1`, and the combined lower and upper proportions must be less than `1`.
+
+## Supported data types
+
+The current version supports:
+
+- `[]int`
+- `[]float64`
+- Named types whose underlying type is `int` or `float64`
+
+The returned mean has type `float64`.
+
+## Testing
+
+Run all unit tests:
+
+```bash
+go test ./...
+```
+
+Display each test and subtest:
+
+```bash
+go test -v ./...
+```
+
+Run Go's static analysis tool:
+
+```bash
+go vet ./...
+```
+
+Current tests cover:
+
+- Symmetric integer trimming
+- Symmetric floating-point trimming
+- Asymmetric trimming
+- Zero trimming
+- Unsorted input
+- Empty input
+- Invalid trimming proportions
+- Fractional trimming counts
+- Preservation of the original input slice
+
+## Known limitations
+
+- Benchmarks and profiling evidence have not yet been added.
+- Validation against R using datasets of at least 100 integers and 100 floating-point values has not yet been completed.
+- Handling of `NaN` and infinite observations is still being defined.
+
+## GenAI Tools
+
+Generative AI tools were used during development to:
+
+- Break the assignment into smaller tasks
+- Explain Go syntax and programming concepts
+- Review the package design
+- Develop and explain unit tests
+- Review documentation
+
+The package code and tests were reviewed and executed locally by the repository author. Conversation records or links will be added to the repository as required by the assignment.

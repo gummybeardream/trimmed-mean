@@ -1,4 +1,4 @@
-// Package trimmedmean calculates means after removing observations from the lower and upper ends of a sorted dataset
+// Package trimmedmean calculates means after removing observations from the lower and upper ends of a sorted dataset.
 package trimmedmean
 
 import (
@@ -12,7 +12,7 @@ type Number interface {
 	~int | ~float64
 }
 
-// Mean calculates the trimmed mean of values
+// Mean calculates the trimmed mean of values.
 //
 // One trim proportion applies symmetric trimming. Two proportions apply
 // separate lower and upper trimming.
