@@ -80,6 +80,10 @@ The first proportion is the lower trim, and the second is the upper trim. This e
 
 ## Trimming rules
 
+All observations must be finite. The function returns an error if the input
+contains `NaN`, positive infinity, or negative infinity. This validation applies
+to the entire input slice, including observations that trimming might remove.
+
 The number of observations removed from each end is calculated as:
 
 ```text
@@ -137,12 +141,12 @@ Current tests cover:
 - Invalid trimming proportions
 - Fractional trimming counts
 - Preservation of the original input slice
+- Rejection of `NaN` and infinite observations
 
 ## Known limitations
 
 - Benchmarks and profiling evidence have not yet been added.
 - Validation against R using datasets of at least 100 integers and 100 floating-point values has not yet been completed.
-- Handling of `NaN` and infinite observations is still being defined.
 
 ## GenAI Tools
 

@@ -172,3 +172,32 @@ func floatsAlmostEqual(first, second float64) bool {
 	const tolerance = 1e-12
 	return math.Abs(first-second) <= tolerance
 }
+
+func TestMeanRejectsNonFiniteValues(t *testing.T) {
+	tests := []struct {
+		name   string
+		values []float64
+	}{
+		{
+			name:   "NaN observation",
+			values: []float64{1, 2, math.NaN(), 4, 5},
+		},
+		{
+			name:   "positive infinity",
+			values: []float64{1, 2, math.Inf(1), 4, 5},
+		},
+		{
+			name:   "negative infinity",
+			values: []float64{1, 2, math.Inf(-1), 4, 5},
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			_, err := Mean(test.values, 0)
+			if err == nil {
+				t.Errorf("Mean returned no error for values %v", test.values)
+			}
+		})
+	}
+}

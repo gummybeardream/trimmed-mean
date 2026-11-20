@@ -15,7 +15,8 @@ type Number interface {
 // Mean calculates the trimmed mean of values.
 //
 // One trim proportion applies symmetric trimming. Two proportions apply
-// separate lower and upper trimming.
+// separate lower and upper trimming. Mean returns an error for empty input,
+// invalid trimming proportions, or non-finite observations.
 func Mean[T Number](values []T, trims ...float64) (float64, error) {
 	if len(values) == 0 {
 		return 0, errors.New("values must not be empty")
@@ -42,6 +43,14 @@ func Mean[T Number](values []T, trims ...float64) (float64, error) {
 
 	if lowerTrim+upperTrim >= 1 {
 		return 0, errors.New("combined trim proportions must be less than 1")
+	}
+
+	for _, value := range values {
+		number := float64(value)
+
+		if math.IsNaN(number) || math.IsInf(number, 0) {
+			return 0, errors.New("values must contain only finite numbers")
+		}
 	}
 
 	sortedValues := slices.Clone(values)
