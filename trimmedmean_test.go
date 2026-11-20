@@ -85,12 +85,6 @@ func TestMeanDoesNotModifyInput(t *testing.T) {
 	}
 }
 
-func slicesClone[T any](values []T) []T {
-	cloned := make([]T, len(values))
-	copy(cloned, values)
-	return cloned
-}
-
 func TestMeanInvalidTrims(t *testing.T) {
 	values := []int{1, 2, 3, 4, 5}
 
@@ -168,11 +162,6 @@ func TestMeanFractionalTrimCountRoundsDown(t *testing.T) {
 	}
 }
 
-func floatsAlmostEqual(first, second float64) bool {
-	const tolerance = 1e-12
-	return math.Abs(first-second) <= tolerance
-}
-
 func TestMeanRejectsNonFiniteValues(t *testing.T) {
 	tests := []struct {
 		name   string
@@ -200,4 +189,15 @@ func TestMeanRejectsNonFiniteValues(t *testing.T) {
 			}
 		})
 	}
+}
+
+func slicesClone[T any](values []T) []T {
+	cloned := make([]T, len(values))
+	copy(cloned, values)
+	return cloned
+}
+
+func floatsAlmostEqual(first, second float64) bool {
+	const tolerance = 1e-12
+	return math.Abs(first-second) <= tolerance
 }
