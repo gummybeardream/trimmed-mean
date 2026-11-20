@@ -17,8 +17,11 @@ Currently implemented:
 - Input validation for trimming proportions
 - Unit tests
 - Protection against modification of the caller's input slice
+- Rejection of non-finite observations
+- Benchmarks for 100 integers and 100 floating-point values
+- Execution-time and memory-allocation evidence
 
-Benchmarks, profiling evidence, and comparisons with R will be added as development continues.
+Profiling evidence and comparisons with R will be added as development continues.
 
 ## Requirements
 
@@ -143,10 +146,26 @@ Current tests cover:
 - Preservation of the original input slice
 - Rejection of `NaN` and infinite observations
 
+## Benchmarking
+
+The package includes benchmarks using 100 integers and 100 floating-point
+observations. Each benchmark measures the complete `Mean` operation, including
+copying, sorting, trimming, and calculating the mean.
+
+Run the benchmarks with:
+
+```bash
+go test -bench=. -benchmem
+```
+
 ## Known limitations
 
-- Benchmarks and profiling evidence have not yet been added.
-- Validation against R using datasets of at least 100 integers and 100 floating-point values has not yet been completed.
+- Benchmarks have currently been run only on one Apple M1 computer using
+  datasets of 100 observations.
+- CPU and memory profiles have not yet been added.
+- Validation against R using shared datasets of at least 100 integers and 100
+  floating-point values has not yet been completed.
+- Extremely large finite values could cause the running sum to overflow.
 
 ## GenAI Tools
 

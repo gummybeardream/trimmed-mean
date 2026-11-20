@@ -1,0 +1,19 @@
+go version go1.27.1 darwin/arm64
+darwin
+arm64
+goos: darwin
+goarch: arm64
+pkg: github.com/gummybeardream/trimmed-mean
+cpu: Apple M1
+BenchmarkMeanIntegers100-8   	 1324728	       874.5 ns/op	     896 B/op	       1 allocs/op
+BenchmarkMeanIntegers100-8   	 1408180	       852.6 ns/op	     896 B/op	       1 allocs/op
+BenchmarkMeanIntegers100-8   	 1350110	       889.8 ns/op	     896 B/op	       1 allocs/op
+BenchmarkMeanIntegers100-8   	 1382341	       863.2 ns/op	     896 B/op	       1 allocs/op
+BenchmarkMeanIntegers100-8   	 1385317	       862.1 ns/op	     896 B/op	       1 allocs/op
+BenchmarkMeanFloats100-8     	 1000000	      1050 ns/op	     896 B/op	       1 allocs/op
+BenchmarkMeanFloats100-8     	 1000000	      1056 ns/op	     896 B/op	       1 allocs/op
+BenchmarkMeanFloats100-8     	 1000000	      1122 ns/op	     896 B/op	       1 allocs/op
+BenchmarkMeanFloats100-8     	 1000000	      1051 ns/op	     896 B/op	       1 allocs/op
+BenchmarkMeanFloats100-8     	 1000000	      1072 ns/op	     896 B/op	       1 allocs/op
+PASS
+ok  	github.com/gummybeardream/trimmed-mean	11.572s
