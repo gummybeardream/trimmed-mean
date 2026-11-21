@@ -145,6 +145,7 @@ Current tests cover:
 - Fractional trimming counts
 - Preservation of the original input slice
 - Rejection of `NaN` and infinite observations
+- Duplicate observations
 
 ## Benchmarking
 
@@ -156,6 +157,34 @@ Run the benchmarks with:
 
 ```bash
 go test -bench=. -benchmem
+```
+
+### Benchmark results
+
+Five benchmark trials were run on an Apple M1 computer using Go 1.27.1 on
+macOS with the ARM64 architecture.
+
+| Benchmark | Average time | Memory | Allocations |
+|---|---:|---:|---:|
+| 100 integers | 868.4 ns/op | 896 B/op | 1 alloc/op |
+| 100 floats | 1,070.2 ns/op | 896 B/op | 1 alloc/op |
+
+Both benchmarks made one 896-byte allocation per operation. This allocation
+comes from copying the input slice before sorting it, which prevents the
+function from modifying the caller's data.
+
+In this experiment, the floating-point benchmark took approximately 23% more
+time than the integer benchmark. This result applies to this computer, dataset,
+and implementation and should not be interpreted as proof that integer input
+is always faster.
+
+The unedited output from all five trials is available in
+[`results/benchmarks.txt`](results/benchmarks.txt).
+
+Run five benchmark trials with this command:
+
+```bash
+go test -bench=. -benchmem -count=5
 ```
 
 ## Known limitations

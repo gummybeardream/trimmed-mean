@@ -191,6 +191,20 @@ func TestMeanRejectsNonFiniteValues(t *testing.T) {
 	}
 }
 
+func TestMeanDuplicateValues(t *testing.T) {
+	values := []int{1, 1, 2, 2, 3, 3, 100, 100}
+
+	got, err := Mean(values, 0.25)
+	if err != nil {
+		t.Fatalf("Mean returned an unexpected error: %v", err)
+	}
+
+	want := 2.5
+	if !floatsAlmostEqual(got, want) {
+		t.Errorf("Mean() = %v; want %v", got, want)
+	}
+}
+
 func slicesClone[T any](values []T) []T {
 	cloned := make([]T, len(values))
 	copy(cloned, values)
